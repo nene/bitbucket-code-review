@@ -1,0 +1,69 @@
+"use strict";
+
+$(function(){
+    var MYSELF = "Rene Saarsoo";
+
+    $("head").append(
+        "<style>" +
+        ".mark-as-read, .mark-as-read-ok { " +
+        "    color: white;" +
+        "    border-radius: 10px;" +
+        "    padding: 0 0.5em;" +
+        "    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;" +
+        "    font-weight: 100;" +
+        "    font-size: 12px;" +
+        "    letter-spacing: 1px;" +
+        "} " +
+        ".mark-as-read { background-color: #DB4D4D; } " +
+        ".mark-as-read-ok { background-color: #4DB870; } " +
+        "</style>"
+    );
+
+    $(".commit-list .iterable-item").each(function(){
+        var tr = $(this);
+        // Skip commits made by myself - no need to review my own stuff
+        var author = tr.find("td.user span[title]").attr("title");
+        if (author === MYSELF) {
+            return;
+        }
+
+        // extract the SHA hash of a commit
+        var hash = tr.find("a.hash").attr("href").replace(/^.*\//, "");
+        var localStorageKey = "read-" + hash;
+
+        var link = $("<a href='#read'></a>");
+        link.data("key", localStorageKey);
+
+        if (localStorage.getItem(localStorageKey)) {
+            // This commit has been read.
+            link.attr("class", "mark-as-read-ok");
+            link.text("read");
+        }
+        else {
+            // This commit has NOT been read yet.
+            link.attr("class", "mark-as-read");
+            link.text("unread");
+        }
+
+        var td = tr.find("td.text > div");
+        td.append(link);
+    });
+
+    $(".commit-list").on("click", ".mark-as-read", function(evt){
+        evt.preventDefault();
+        var link = $(evt.target);
+
+        link.attr("class", "mark-as-read-ok");
+        link.text("read");
+        localStorage.setItem(link.data("key"), true);
+    });
+
+    $(".commit-list").on("click", ".mark-as-read-ok", function(evt){
+        evt.preventDefault();
+        var link = $(evt.target);
+
+        link.attr("class", "mark-as-read");
+        link.text("unread");
+        localStorage.removeItem(link.data("key"));
+    });
+});

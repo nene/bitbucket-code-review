@@ -1,0 +1,49 @@
+{
+    // Enforcing options:
+
+    // Disallow bitwise operators
+    "bitwise": true,
+    // Require for-in loops to filter objects properties
+    "forin": true,
+    // Prohibit overwriting native objects like Array, Date.
+    "freeze": true,
+    // All immediate function invocations must be wrapped in parenthesis.
+    "immed": true,
+    // All constructor functions must be Capitalized.
+    "newcap": true,
+    // No invisible whitespace characters
+    "nonbsp": true,
+    // Prohibit arguments.caller and arguments.callee
+    "noarg": true,
+    // Enforce camelCase or UPPER_CASE for all variable names
+    "camelcase": true,
+    // Require all variables to be declared to avoid accidental globals
+    "undef": true,
+    // We need to support IE9
+    "es3": true,
+
+    // Relaxing options:
+
+    // We intentionally use global "use strict"; Don't warn about that.
+    "globalstrict": true,
+
+    // Don't warn about var-s inside control structures
+    "funcscope": true,
+    // Allow creating functions inside loops
+    "loopfunc": true,
+
+    "browser": true,
+    "jquery": true,
+    "predef": [
+        "requirejs",
+        "define",
+        "mixpanel",
+
+        // Jasmine tests helper functions
+        "describe",
+        "it",
+        "expect",
+        "beforeEach",
+        "spyOn"
+    ]
+}
