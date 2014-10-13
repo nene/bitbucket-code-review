@@ -19,6 +19,7 @@ $(function(){
         "</style>"
     );
 
+    // Commits list page
     $(".commit-list .iterable-item").each(function(){
         var tr = $(this);
         // Skip commits made by myself - no need to review my own stuff
@@ -28,7 +29,32 @@ $(function(){
         }
 
         // extract the SHA hash of a commit
-        var hash = tr.find("a.hash").attr("href").replace(/^.*\//, "");
+        var hash = extractHash(tr.find("a.hash").attr("href"));
+
+        var link = createLink(hash);
+        tr.find("td.text > div").append(link);
+    });
+
+    // Single commit page
+    $(".commit-info .commit-header").each(function(){
+        // Skip commits made by myself - no need to review my own stuff
+        var author = $(this).find(".author").text();
+        if (author === MYSELF) {
+            return;
+        }
+
+        // extract the SHA hash of a commit
+        var hash = extractHash(document.location.href);
+
+        var link = createLink(hash);
+        $(this).find(".changeset-hash").append(link);
+    });
+
+    function extractHash(url) {
+        return url.replace(/#.*$/, "").replace(/^.*\//, "");
+    }
+
+    function createLink(hash) {
         var localStorageKey = "read-" + hash;
 
         var link = $("<a href='#read'></a>");
@@ -45,11 +71,10 @@ $(function(){
             link.text("unread");
         }
 
-        var td = tr.find("td.text > div");
-        td.append(link);
-    });
+        return link;
+    }
 
-    $(".commit-list").on("click", ".mark-as-read", function(evt){
+    $("body").on("click", ".mark-as-read", function(evt){
         evt.preventDefault();
         var link = $(evt.target);
 
@@ -58,7 +83,7 @@ $(function(){
         localStorage.setItem(link.data("key"), true);
     });
 
-    $(".commit-list").on("click", ".mark-as-read-ok", function(evt){
+    $("body").on("click", ".mark-as-read-ok", function(evt){
         evt.preventDefault();
         var link = $(evt.target);
 
