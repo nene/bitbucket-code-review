@@ -28,6 +28,11 @@ $(function(){
             return;
         }
 
+        // Skip merge commits
+        if (containsMergeMarker(tr)) {
+            return;
+        }
+
         // extract the SHA hash of a commit
         var hash = extractHash(tr.find("a.hash").attr("href"));
 
@@ -37,9 +42,15 @@ $(function(){
 
     // Single commit page
     $(".commit-info .commit-header").each(function(){
+        var el = $(this);
         // Skip commits made by myself - no need to review my own stuff
-        var author = $(this).find(".author").text();
+        var author = el.find(".author").text();
         if (author === MYSELF) {
+            return;
+        }
+
+        // Skip merge commits
+        if (containsMergeMarker(el)) {
             return;
         }
 
@@ -47,8 +58,12 @@ $(function(){
         var hash = extractHash(document.location.href);
 
         var link = createLink(hash);
-        $(this).find(".changeset-hash").append(link);
+        el.find(".changeset-hash").append(link);
     });
+
+    function containsMergeMarker(el) {
+        return el.find(".aui-lozenge").length > 0;
+    }
 
     function extractHash(url) {
         return url.replace(/#.*$/, "").replace(/\/$/, "").replace(/^.*\//, "");
