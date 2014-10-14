@@ -51,7 +51,7 @@ $(function(){
     });
 
     function extractHash(url) {
-        return url.replace(/#.*$/, "").replace(/^.*\//, "");
+        return url.replace(/#.*$/, "").replace(/\/$/, "").replace(/^.*\//, "");
     }
 
     function createLink(hash) {
