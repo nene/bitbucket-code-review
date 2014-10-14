@@ -1,7 +1,13 @@
 "use strict";
 
 $(function(){
-    var MYSELF = "Rene Saarsoo";
+    var IGNORED_AUTHORS = [
+        // Maven release plugin
+        "Author not mapped to Bitbucket user.",
+        "Anonymous",
+        // Myself
+        "Rene Saarsoo"
+    ];
 
     $("head").append(
         "<style>" +
@@ -22,9 +28,9 @@ $(function(){
     // Commits list page
     $(".commit-list .iterable-item").each(function(){
         var tr = $(this);
-        // Skip commits made by myself - no need to review my own stuff
+        // Skip commits by certain authors
         var author = tr.find("td.user span[title]").attr("title");
-        if (author === MYSELF) {
+        if (isIgnoredAuthor(author)) {
             return;
         }
 
@@ -43,9 +49,9 @@ $(function(){
     // Single commit page
     $(".commit-info .commit-header").each(function(){
         var el = $(this);
-        // Skip commits made by myself - no need to review my own stuff
+        // Skip commits by certain authors
         var author = el.find(".author").text();
-        if (author === MYSELF) {
+        if (isIgnoredAuthor(author)) {
             return;
         }
 
@@ -60,6 +66,10 @@ $(function(){
         var link = createLink(hash);
         el.find(".changeset-hash").append(link);
     });
+
+    function isIgnoredAuthor(author) {
+        return IGNORED_AUTHORS.indexOf(author) !== -1;
+    }
 
     function containsMergeMarker(el) {
         return el.find(".aui-lozenge").length > 0;
