@@ -25,47 +25,49 @@ $(function(){
         "</style>"
     );
 
-    // Commits list page
-    $(".commit-list .iterable-item").each(function(){
-        var tr = $(this);
-        // Skip commits by certain authors
-        var author = tr.find("td.user span[title]").attr("title");
-        if (isIgnoredAuthor(author)) {
-            return;
-        }
+    function init() {
+        // Commits list page
+        $(".commit-list .iterable-item").each(function(){
+            var tr = $(this);
+            // Skip commits by certain authors
+            var author = tr.find("td.user span[title]").attr("title");
+            if (isIgnoredAuthor(author)) {
+                return;
+            }
 
-        // Skip merge commits
-        if (containsMergeMarker(tr)) {
-            return;
-        }
+            // Skip merge commits
+            if (containsMergeMarker(tr)) {
+                return;
+            }
 
-        // extract the SHA hash of a commit
-        var hash = extractHash(tr.find("a.hash").attr("href"));
+            // extract the SHA hash of a commit
+            var hash = extractHash(tr.find("a.hash").attr("href"));
 
-        var link = createLink(hash);
-        tr.find("td.text > div").append(link);
-    });
+            var link = createLink(hash);
+            tr.find("td.text > div").append(link);
+        });
 
-    // Single commit page
-    $(".commit-info .commit-header").each(function(){
-        var el = $(this);
-        // Skip commits by certain authors
-        var author = el.find(".author").text();
-        if (isIgnoredAuthor(author)) {
-            return;
-        }
+        // Single commit page
+        $(".commit-info .commit-header").each(function(){
+            var el = $(this);
+            // Skip commits by certain authors
+            var author = el.find(".author").text();
+            if (isIgnoredAuthor(author)) {
+                return;
+            }
 
-        // Skip merge commits
-        if (containsMergeMarker(el)) {
-            return;
-        }
+            // Skip merge commits
+            if (containsMergeMarker(el)) {
+                return;
+            }
 
-        // extract the SHA hash of a commit
-        var hash = extractHash(document.location.href);
+            // extract the SHA hash of a commit
+            var hash = extractHash(document.location.href);
 
-        var link = createLink(hash);
-        el.find(".changeset-hash").append(link);
-    });
+            var link = createLink(hash);
+            el.find(".changeset-hash").append(link);
+        });
+    }
 
     function isIgnoredAuthor(author) {
         return IGNORED_AUTHORS.indexOf(author) !== -1;
@@ -116,4 +118,11 @@ $(function(){
         link.text("unread");
         localStorage.removeItem(link.data("key"));
     });
+
+    init();
+
+    // Refresh the read/unread links when commit list refreshed with Ajax
+    var observer = new MutationObserver(init);
+    observer.observe($(".branch-selector-pjax")[0], {childList: true});
+
 });
