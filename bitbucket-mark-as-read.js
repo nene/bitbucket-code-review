@@ -121,8 +121,10 @@ $(function(){
 
     init();
 
-    // Refresh the read/unread links when commit list refreshed with Ajax
-    var observer = new MutationObserver(init);
-    observer.observe($(".branch-selector-pjax")[0], {childList: true});
+    if ($(".branch-selector-pjax").length > 0) {
+        // Refresh the read/unread links when commit list refreshed with Ajax
+        var observer = new MutationObserver(init);
+        observer.observe($(".branch-selector-pjax")[0], {childList: true});
+    }
 
 });
