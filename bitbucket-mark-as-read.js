@@ -30,6 +30,10 @@ $(function(){
         // Commits list page
         $(".commit-list .iterable-item").each(function(){
             var tr = $(this);
+
+            // Make commit bodies less annoying.
+            tr.find("td.text .body").css("color", "#ddd");
+
             // Skip commits by certain authors
             var author = tr.find("td.user span[title]").attr("title");
             if (isIgnoredAuthor(author)) {
