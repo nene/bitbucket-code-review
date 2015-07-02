@@ -15,6 +15,7 @@ $(function(){
         "    color: white;" +
         "    border-radius: 10px;" +
         "    padding: 0 0.5em;" +
+        "    margin-left: 0.5em;" +
         "    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;" +
         "    font-weight: 100;" +
         "    font-size: 12px;" +
@@ -44,7 +45,7 @@ $(function(){
             var hash = extractHash(tr.find("a.hash").attr("href"));
 
             var link = createLink(hash);
-            tr.find("td.text > div").append(link);
+            tr.find("td.text .subject").append(link);
         });
 
         // Single commit page
