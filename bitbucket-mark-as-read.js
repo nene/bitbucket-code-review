@@ -6,7 +6,13 @@ $(function(){
         "Author not mapped to Bitbucket user.",
         "Anonymous",
         // Myself
-        "Rene Saarsoo"
+        "Rene Saarsoo",
+        // Backend devs
+        "Neeme Praks",
+        "Kaarel Kann",
+        "raulv",
+        "Erkki Lindpere",
+        "Pavel Grigorenko"
     ];
 
     $("head").append(
