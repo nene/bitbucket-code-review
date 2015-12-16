@@ -62,6 +62,34 @@ $(function(){
             var link = createLink(hash);
             el.find(".changeset-hash").append(link);
         });
+
+        // JIRA commits list
+        $("body").on("click", "#devstatus-container a.summary", () => {
+            waitFor(".detail-commits-container", () => {
+                $(".detail-commits-container .commitrow").each(function() {
+                    // Skip commits by certain authors
+                    var author = $(this).find(".author .extra-content-in-title").attr("original-title");
+                    if (isIgnoredAuthor(author)) {
+                        return;
+                    }
+
+                    var hash = $(this).data("changesetid");
+                    $(this).find(".message .ellipsis").prepend(createLink(hash));
+                });
+            });
+        });
+    }
+
+    function waitFor(selector, callback) {
+        function test() {
+            if ($(selector).length > 0) {
+                callback();
+            }
+            else {
+                setTimeout(test, 100);
+            }
+        }
+        test();
     }
 
     function isIgnoredAuthor(author) {
