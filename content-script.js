@@ -38,8 +38,9 @@ $(function(){
             // extract the SHA hash of a commit
             var hash = extractHash(tr.find("a.hash").attr("href"));
 
-            var link = createLink(hash);
-            tr.find("td.text .subject").append(link);
+            createLink(hash, (link) => {
+                tr.find("td.text .subject").append(link);
+            });
         });
 
         // Single commit page
@@ -59,8 +60,9 @@ $(function(){
             // extract the SHA hash of a commit
             var hash = extractHash(document.location.href);
 
-            var link = createLink(hash);
-            el.find(".changeset-hash").append(link);
+            createLink(hash, (link) => {
+                el.find(".changeset-hash").append(link);
+            });
         });
 
         // JIRA commits list
@@ -74,7 +76,9 @@ $(function(){
                     }
 
                     var hash = $(this).data("changesetid");
-                    $(this).find(".message .ellipsis").prepend(createLink(hash));
+                    createLink(hash, (link) => {
+                        $(this).find(".message .ellipsis").prepend(link);
+                    });
                 });
             });
         });
@@ -104,24 +108,26 @@ $(function(){
         return url.replace(/#.*$/, "").replace(/\/$/, "").replace(/^.*\//, "").replace(/\?.*/, "");
     }
 
-    function createLink(hash) {
-        var localStorageKey = "read-" + hash;
+    function createLink(hash, callback) {
+        var storageKey = "read-" + hash;
 
         var link = $("<a href='#read'></a>");
-        link.data("key", localStorageKey);
+        link.data("key", storageKey);
 
-        if (localStorage.getItem(localStorageKey)) {
-            // This commit has been read.
-            link.attr("class", "mark-as-read-ok");
-            link.text("read");
-        }
-        else {
-            // This commit has NOT been read yet.
-            link.attr("class", "mark-as-read");
-            link.text("unread");
-        }
+        chrome.storage.local.get(storageKey, (obj) => {
+            if (obj[storageKey]) {
+                // This commit has been read.
+                link.attr("class", "mark-as-read-ok");
+                link.text("read");
+            }
+            else {
+                // This commit has NOT been read yet.
+                link.attr("class", "mark-as-read");
+                link.text("unread");
+            }
 
-        return link;
+            callback(link);
+        });
     }
 
     $("body").on("click", ".mark-as-read", function(evt){
@@ -130,7 +136,10 @@ $(function(){
 
         link.attr("class", "mark-as-read-ok");
         link.text("read");
-        localStorage.setItem(link.data("key"), true);
+
+        var storageObj = {};
+        storageObj[link.data("key")] = true;
+        chrome.storage.local.set(storageObj);
     });
 
     $("body").on("click", ".mark-as-read-ok", function(evt){
@@ -139,7 +148,7 @@ $(function(){
 
         link.attr("class", "mark-as-read");
         link.text("unread");
-        localStorage.removeItem(link.data("key"));
+        chrome.storage.local.remove(link.data("key"));
     });
 
     init();

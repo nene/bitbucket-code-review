@@ -19,5 +19,9 @@
                 "styles.css"
             ]
         }
+    ],
+
+    "permissions": [
+        "storage"
     ]
 }
