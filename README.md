@@ -5,21 +5,13 @@
 I'd like to mark commits that's I've personally reviewed as 'read',
 without actually approving them globally.
 
-To achieve that I wrote a JavaScript snippet that you can paste into [Tampermonkey][].
+I'd also like to see the same data in JIRA when looking at commits list.
 
+To achieve that I wrote Chrome extension.  It uses Chrome storage API
+for saving the read/unread data, so it can be shared between JIRA and
+Bitbucket pages (which wouldn't be possible with simple user-script).
 
-## Quick Start
+## Install
 
-Grab the script from `bitbucket-mark-as-read.js`
-
-
-## You Need More Help?
-
-1. Install [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
-2. Open up Tampermonkey and create a new script
-3. Copy paste the script from `bitbucket-mark-as-read.js` or
-   link it with `@requires` from you userscript definition.
-4. **Modify @include URL in the header to match your Bitbucket url**
-5. Navigate to your Bitbucket commits and behold...
-
-[Tampermonkey]: https://chrome.google.com/webstore/detail/tampermonkey/
+Just open chrome://extensions page, tick "Developer mode",
+click "Load unpacked extension..." and brows for the dir of this script.
