@@ -10,7 +10,7 @@
             "matches": ["https://bitbucket.org/zeroturnaround/xr-agent/commits/*"],
             "js": [
                 "jquery.min.js",
-                "bitbucket-mark-as-read.js"
+                "content-script.js"
             ],
             "css": [
                 "styles.css"
