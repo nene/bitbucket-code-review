@@ -16,23 +16,6 @@ $(function(){
         "Pavel Grigorenko"
     ];
 
-    $("head").append(
-        "<style>" +
-        ".mark-as-read, .mark-as-read-ok { " +
-        "    color: white;" +
-        "    border-radius: 10px;" +
-        "    padding: 0 0.5em;" +
-        "    margin-left: 0.5em;" +
-        "    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;" +
-        "    font-weight: 100;" +
-        "    font-size: 12px;" +
-        "    letter-spacing: 1px;" +
-        "} " +
-        ".mark-as-read { background-color: #DB4D4D; } " +
-        ".mark-as-read-ok { background-color: #4DB870; } " +
-        "</style>"
-    );
-
     function init() {
         // Commits list page
         $(".commit-list .iterable-item").each(function(){
