@@ -11,6 +11,7 @@ $(function(){
         "Neeme Praks",
         "Kaarel Kann",
         "raulv",
+        "Raul Valge",
         "Erkki Lindpere",
         "Pavel Grigorenko"
     ];
