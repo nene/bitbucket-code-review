@@ -13,7 +13,8 @@ $(function(){
         "raulv",
         "Raul Valge",
         "Erkki Lindpere",
-        "Pavel Grigorenko"
+        "Pavel Grigorenko",
+        "Vasily Tsvetkov",
     ];
 
     function init() {
