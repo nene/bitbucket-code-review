@@ -17,6 +17,20 @@ function restoreOptions() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
+function showStats() {
+    chrome.storage.local.getBytesInUse(null, bytes => {
+        chrome.storage.local.get(null, allItems => {
+            var size = (bytes >= 1024) ? `${Math.round(bytes / 1024)} KiB` : `${bytes} bytes`;
+            var count = Object.keys(allItems).length;
+            document.getElementById('stats').textContent =
+                `Total ${size} used to store ${count} read commits.`;
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    restoreOptions();
+    showStats();
+});
 
 document.getElementById('save').addEventListener('click', saveOptions);
