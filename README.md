@@ -14,4 +14,4 @@ Bitbucket pages (which wouldn't be possible with simple user-script).
 ## Install
 
 Just open chrome://extensions page, tick "Developer mode",
-click "Load unpacked extension..." and brows for the dir of this script.
+click "Load unpacked extension..." and browse for the dir of this script.
