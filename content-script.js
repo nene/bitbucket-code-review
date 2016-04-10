@@ -1,21 +1,42 @@
 "use strict";
 
+/**
+ * Parses ignored authors list for settings,
+ * providing the .contains() predicate for checking
+ * if a particular author is in ignore list.
+ */
+var ignoredAuthors = {
+    // Loads settings, invokes callback when done
+    load(callback) {
+        chrome.storage.sync.get({ignoredAuthors: ''}, cfg => {
+            this.init(cfg.ignoredAuthors);
+            callback();
+        });
+    },
+
+    init(text) {
+        this.authors = {};
+        this.parse(text).forEach(name => {
+            this.authors[name] = true;
+            console.log(name);
+        });
+    },
+
+    parse(text) {
+        return text
+            .split("\n")
+            // eliminate comments and whitespace
+            .map(s => s.replace(/\/\/.*/, "").trim())
+            // eliminate empty lines
+            .filter(s => s);
+    },
+
+    contains(name) {
+        return this.authors[name];
+    },
+};
+
 $(function(){
-    var IGNORED_AUTHORS = [
-        // Maven release plugin
-        "Author not mapped to Bitbucket user.",
-        "Anonymous",
-        // Myself
-        "Rene Saarsoo",
-        // Backend devs
-        "Neeme Praks",
-        "Kaarel Kann",
-        "raulv",
-        "Raul Valge",
-        "Erkki Lindpere",
-        "Pavel Grigorenko",
-        "Vasily Tsvetkov",
-    ];
 
     function init() {
         // Commits list page
@@ -27,7 +48,7 @@ $(function(){
 
             // Skip commits by certain authors
             var author = tr.find("td.user span[title]").attr("title");
-            if (isIgnoredAuthor(author)) {
+            if (ignoredAuthors.contains(author)) {
                 return;
             }
 
@@ -49,7 +70,7 @@ $(function(){
             var el = $(this);
             // Skip commits by certain authors
             var author = el.find(".author").text();
-            if (isIgnoredAuthor(author)) {
+            if (ignoredAuthors.contains(author)) {
                 return;
             }
 
@@ -72,7 +93,7 @@ $(function(){
                 $(".detail-commits-container .commitrow").each(function() {
                     // Skip commits by certain authors
                     var author = $(this).find(".author .extra-content-in-title").attr("original-title");
-                    if (isIgnoredAuthor(author)) {
+                    if (ignoredAuthors.contains(author)) {
                         return;
                     }
 
@@ -95,10 +116,6 @@ $(function(){
             }
         }
         test();
-    }
-
-    function isIgnoredAuthor(author) {
-        return IGNORED_AUTHORS.indexOf(author) !== -1;
     }
 
     function containsMergeMarker(el) {
@@ -152,12 +169,12 @@ $(function(){
         chrome.storage.local.remove(link.data("key"));
     });
 
-    init();
-
     if ($(".branch-selector-pjax").length > 0) {
         // Refresh the read/unread links when commit list refreshed with Ajax
         var observer = new MutationObserver(init);
         observer.observe($(".branch-selector-pjax")[0], {childList: true});
     }
 
+    // Run init() after ignored authors settings loaded
+    ignoredAuthors.load(init);
 });

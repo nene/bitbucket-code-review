@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Options</title>
+    <style>
+        body: { padding: 10px; }
+        textarea { display: block; font-family: monospace; }
+    </style>
+</head>
+
+<body>
+    <p>
+        <label>
+            <strong>Ignored authors</strong>
+            (one per line, use <code>//</code> for comments):
+            <textarea id="ignoredAuthors" rows="8" cols="60"></textarea>
+        </label>
+    </p>
+
+    <p>
+        <button id="save">Save</button> <span id="status"></span>
+    </p>
+
+    <script src="options.js"></script>
+</body>
+</html>
