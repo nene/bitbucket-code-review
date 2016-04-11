@@ -169,12 +169,14 @@ $(function(){
         chrome.storage.local.remove(link.data("key"));
     });
 
-    if ($(".branch-selector-pjax").length > 0) {
-        // Refresh the read/unread links when commit list refreshed with Ajax
-        var observer = new MutationObserver(init);
-        observer.observe($(".branch-selector-pjax")[0], {childList: true});
-    }
+    ignoredAuthors.load(() => {
+        // Run init() after ignored authors settings loaded
+        init();
 
-    // Run init() after ignored authors settings loaded
-    ignoredAuthors.load(init);
+        if ($(".branch-selector-pjax").length > 0) {
+            // Refresh the read/unread links when commit list refreshed with Ajax
+            var observer = new MutationObserver(init);
+            observer.observe($(".branch-selector-pjax")[0], {childList: true});
+        }
+    });
 });
