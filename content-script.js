@@ -18,7 +18,6 @@ var ignoredAuthors = {
         this.authors = {};
         this.parse(text).forEach(name => {
             this.authors[name] = true;
-            console.log(name);
         });
     },
 
