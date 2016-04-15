@@ -68,7 +68,7 @@ $(function(){
         $(".commit-info .commit-header").each(function(){
             var el = $(this);
             // Skip commits by certain authors
-            var author = el.find(".author").text();
+            var author = el.find(".author[title]").text();
             if (ignoredAuthors.contains(author)) {
                 return;
             }
