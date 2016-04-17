@@ -126,13 +126,11 @@ $(function(){
     }
 
     function createLink(hash, callback) {
-        var storageKey = "read-" + hash;
-
         var link = $("<a href='#read'></a>");
-        link.data("key", storageKey);
+        link.data("key", hash);
 
-        chrome.storage.local.get(storageKey, (obj) => {
-            if (obj[storageKey]) {
+        chrome.storage.local.get(hash, (obj) => {
+            if (obj[hash] && obj[hash].read) {
                 // This commit has been read.
                 link.attr("class", "mark-as-read-ok");
                 link.text("read");
@@ -154,9 +152,9 @@ $(function(){
         link.attr("class", "mark-as-read-ok");
         link.text("read");
 
-        var storageObj = {};
-        storageObj[link.data("key")] = true;
-        chrome.storage.local.set(storageObj);
+        chrome.storage.local.set({
+            [link.data("key")]: {read: true}
+        });
     });
 
     $("body").on("click", ".mark-as-read-ok", function(evt){
