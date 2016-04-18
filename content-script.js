@@ -35,6 +35,40 @@ var ignoredAuthors = {
     },
 };
 
+/**
+ * Manages storage of read and unread commits.
+ */
+var commitStore = {
+    /**
+     * Queries whether commit is read or not.
+     * @param  {String}   hash
+     * @param  {Function} callback  Called with true when commit is read.
+     */
+    isRead(hash, callback) {
+        chrome.storage.local.get(hash, (obj) => {
+            callback(obj[hash] && obj[hash].read);
+        });
+    },
+
+    /**
+     * Marks commit as read.
+     * @param  {String}   hash
+     */
+    markAsRead(hash) {
+        chrome.storage.local.set({
+            [hash]: {read: true}
+        });
+    },
+
+    /**
+     * Marks commit as NOT read.
+     * @param  {String}   hash
+     */
+    markAsUnread(hash) {
+        chrome.storage.local.remove(hash);
+    },
+};
+
 $(function(){
 
     function init() {
@@ -129,8 +163,8 @@ $(function(){
         var link = $("<a href='#read'></a>");
         link.data("key", hash);
 
-        chrome.storage.local.get(hash, (obj) => {
-            if (obj[hash] && obj[hash].read) {
+        commitStore.isRead(hash, (read) => {
+            if (read) {
                 // This commit has been read.
                 link.attr("class", "mark-as-read-ok");
                 link.text("read");
@@ -152,9 +186,7 @@ $(function(){
         link.attr("class", "mark-as-read-ok");
         link.text("read");
 
-        chrome.storage.local.set({
-            [link.data("key")]: {read: true}
-        });
+        commitStore.markAsRead(link.data("key"));
     });
 
     $("body").on("click", ".mark-as-read-ok", function(evt){
@@ -163,7 +195,8 @@ $(function(){
 
         link.attr("class", "mark-as-read");
         link.text("unread");
-        chrome.storage.local.remove(link.data("key"));
+
+        commitStore.markAsUnread(link.data("key"));
     });
 
     ignoredAuthors.load(() => {
