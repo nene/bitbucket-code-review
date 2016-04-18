@@ -16,7 +16,6 @@
                 "https://zeroturnaround.atlassian.net/browse/*"
             ],
             "js": [
-                "jquery.min.js",
                 "content-script.js"
             ],
             "css": [
