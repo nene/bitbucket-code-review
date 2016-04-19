@@ -26,7 +26,10 @@ export default class {
     }
 
     /**
-     * Returns commit data (cleaned up for saving)
+     * Returns commit data to be saved.
+     *
+     * When all values are defaults, returns empty object.
+     *
      * @return {Object}
      */
     getData() {
@@ -42,14 +45,6 @@ export default class {
         }
 
         return data;
-    }
-
-    /**
-     * True when commit has any content worth saving at all.
-     * @return {Boolean}
-     */
-    hasData() {
-        return Object.keys(this.getData()).length > 0;
     }
 
     /**

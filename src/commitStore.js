@@ -16,13 +16,19 @@ export default {
     },
 
     /**
-     * Saves commit with given hash.
+     * Saves data inside commit.
+     *
+     * When commit has no data, deletes it from storage instead.
+     * So we only use the minimum amount of storage.
+     *
      * @param {Commit}  commit
      */
     save(commit) {
-        if (commit.hasData()) {
+        var data = commit.getData();
+
+        if (Object.keys(data).length > 0) {
             chrome.storage.local.set({
-                [commit.getHash()]: commit.getData()
+                [commit.getHash()]: data
             });
         }
         else {
