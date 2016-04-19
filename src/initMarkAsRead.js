@@ -1,6 +1,7 @@
 import $ from "jquery";
 import ignoredAuthors from "./ignoredAuthors";
 import commitStore from "./commitStore";
+import extractCommitHashFromUrl from "./extractCommitHashFromUrl";
 
 /**
  * Module that initializes read/unread links.
@@ -43,7 +44,7 @@ function initCommitListPage() {
         }
 
         // extract the SHA hash of a commit
-        var hash = extractHash(tr.find("a.hash").attr("href"));
+        var hash = extractCommitHashFromUrl(tr.find("a.hash").attr("href"));
 
         createLink(hash, (link) => {
             tr.find("td.text .subject").append(link);
@@ -66,7 +67,7 @@ function initCommitPage() {
         }
 
         // extract the SHA hash of a commit
-        var hash = extractHash(document.location.href);
+        var hash = extractCommitHashFromUrl(document.location.href);
 
         createLink(hash, (link) => {
             el.find(".changeset-hash").append(link);
@@ -136,10 +137,6 @@ function waitFor(selector, callback) {
 
 function containsMergeMarker(el) {
     return el.find(".aui-lozenge").length > 0;
-}
-
-function extractHash(url) {
-    return url.replace(/#.*$/, "").replace(/\/$/, "").replace(/^.*\//, "").replace(/\?.*/, "");
 }
 
 function createLink(hash, callback) {
