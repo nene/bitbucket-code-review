@@ -1,33 +1,32 @@
+import Commit from "./Commit";
+
 /**
- * Manages storage of read and unread commits.
+ * Manages storage of commits.
  */
 export default {
     /**
-     * Queries whether commit is read or not.
-     * @param  {String}   hash
-     * @param  {Function} callback  Called with true when commit is read.
+     * Loads commit with given hash.
+     * @param {String}   hash
+     * @param {Function} callback Invoked with loaded Commit object
      */
-    isRead(hash, callback) {
-        chrome.storage.local.get(hash, (obj) => {
-            callback(obj[hash] && obj[hash].read);
+    load(hash, callback) {
+        chrome.storage.local.get(hash, (data) => {
+            callback(new Commit(hash, data[hash]));
         });
     },
 
     /**
-     * Marks commit as read.
-     * @param  {String}   hash
+     * Saves commit with given hash.
+     * @param {Commit}  commit
      */
-    markAsRead(hash) {
-        chrome.storage.local.set({
-            [hash]: {read: true}
-        });
-    },
-
-    /**
-     * Marks commit as NOT read.
-     * @param  {String}   hash
-     */
-    markAsUnread(hash) {
-        chrome.storage.local.remove(hash);
+    save(commit) {
+        if (commit.hasData()) {
+            chrome.storage.local.set({
+                [commit.getHash()]: commit.getData()
+            });
+        }
+        else {
+            chrome.storage.local.remove(commit.getHash());
+        }
     },
 };

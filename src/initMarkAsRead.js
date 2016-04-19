@@ -102,7 +102,7 @@ function initLinkEventHandlers() {
         link.attr("class", "mark-as-read-ok");
         link.text("read");
 
-        commitStore.markAsRead(link.data("key"));
+        markAsRead(link.data("key"), true);
     });
 
     $("body").on("click", ".mark-as-read-ok", function(evt) {
@@ -112,7 +112,13 @@ function initLinkEventHandlers() {
         link.attr("class", "mark-as-read");
         link.text("unread");
 
-        commitStore.markAsUnread(link.data("key"));
+        markAsRead(link.data("key"), false);
+    });
+}
+
+function markAsRead(hash, read) {
+    commitStore.load(hash, commit => {
+        commitStore.save(commit.setRead(read));
     });
 }
 
@@ -140,8 +146,8 @@ function createLink(hash, callback) {
     var link = $("<a href='#read'></a>");
     link.data("key", hash);
 
-    commitStore.isRead(hash, (read) => {
-        if (read) {
+    commitStore.load(hash, (commit) => {
+        if (commit.isRead()) {
             // This commit has been read.
             link.attr("class", "mark-as-read-ok");
             link.text("read");
