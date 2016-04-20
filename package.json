@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "package": "rm -rf extension.zip; zip extension.zip content-script.js icon.png manifest.json options.* styles.css",
     "build": "webpack --optimize-minimize --bail --devtool",
     "watch": "webpack --watch"
   },
