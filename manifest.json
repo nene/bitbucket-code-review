@@ -1,8 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "Bitbucket mark-as-read",
-    "description": "Mark commits in Bitbucket as read or unread",
+    "name": "Bitbucket code review",
+    "short_name": "Bitbucket CR",
+    "description": "Improvements to Bitbucket and JIRA for easier code reviewing",
     "version": "1.0",
 
     "icons": {
