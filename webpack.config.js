@@ -12,6 +12,7 @@ module.exports = {
     entry: {
         bitbucket: path.join(__dirname, "src/bitbucket.js"),
         jira: path.join(__dirname, "src/jira.js"),
+        options: path.join(__dirname, "src/options.js"),
     },
     output: {
         path: path.join(__dirname, "dist"),
