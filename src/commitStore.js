@@ -46,6 +46,18 @@ export default {
     },
 
     /**
+     * Clears the cache.
+     *
+     * Use when you want to refresh data on the whole page,
+     * to be able to get updates made in other browser tabs.
+     * But be sure you don't have any existing references
+     * commit objects, as those will become invalid.
+     */
+    clearCache() {
+        this.cache = {};
+    },
+
+    /**
      * Saves data inside commit.
      *
      * When commit has no data, deletes it from storage instead.
