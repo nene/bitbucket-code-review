@@ -13,8 +13,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://bitbucket.org/zeroturnaround/xr-agent/commits/*",
-                "https://zeroturnaround.atlassian.net/browse/*"
+                "https://bitbucket.org/*/commits/*",
+                "https://*.atlassian.net/browse/*"
             ],
             "js": [
                 "content-script.js"
