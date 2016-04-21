@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "package": "npm run build; rm -rf extension.zip; zip extension.zip manifest.json *.html *.js *.css *.png",
+    "package": "npm run build; rm -rf extension.zip; zip extension.zip manifest.json dist/*.js *.js *.html *.css *.png",
     "build": "webpack --optimize-minimize --bail --devtool",
     "watch": "webpack --watch"
   },

@@ -12,16 +12,14 @@
 
     "content_scripts": [
         {
-            "matches": [
-                "https://bitbucket.org/*/commits/*",
-                "https://*.atlassian.net/browse/*"
-            ],
-            "js": [
-                "content-script.js"
-            ],
-            "css": [
-                "styles.css"
-            ]
+            "matches": ["https://bitbucket.org/*/commits/*"],
+            "js": ["dist/bitbucket.js"],
+            "css": ["styles.css"]
+        },
+        {
+            "matches": ["https://*.atlassian.net/browse/*"],
+            "js": ["dist/jira.js"],
+            "css": ["styles.css"]
         }
     ],
 

@@ -10,11 +10,12 @@ module.exports = {
         fs: "empty"
     },
     entry: {
-        app: path.join(__dirname, "src/index.js")
+        bitbucket: path.join(__dirname, "src/bitbucket.js"),
+        jira: path.join(__dirname, "src/jira.js"),
     },
     output: {
-        path: __dirname,
-        filename: "content-script.js"
+        path: path.join(__dirname, "dist"),
+        filename: "[name].js"
     },
     module: {
         loaders: [

@@ -1,2 +1,4 @@
-content-script.js
 node_modules/
+dist/
+data/
+extension.zip

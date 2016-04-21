@@ -1,8 +1,9 @@
 import $ from "jquery";
-import initMarkAsRead from "./initMarkAsRead";
+import BitbucketMarkAsRead from "./BitbucketMarkAsRead";
 import initDiffToggleButtons from "./initDiffToggleButtons";
 
 $(() => {
-    initMarkAsRead();
+    var bitbucket = new BitbucketMarkAsRead();
+    bitbucket.run();
     initDiffToggleButtons();
 });
