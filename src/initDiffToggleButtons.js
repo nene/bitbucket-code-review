@@ -47,7 +47,7 @@ function createToggleButton($diffContainer, commit) {
 
         commit.setFileVisible(filename, !commit.isFileVisible(filename));
         commitStore.save(commit);
-        $button.text(makeLinkText(commit.isFileVisible()));
+        $button.text(makeLinkText(commit.isFileVisible(filename)));
         $contentToToggle.toggle();
     });
 
