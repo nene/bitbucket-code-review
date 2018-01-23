@@ -1,6 +1,6 @@
 {
   "name": "bitbucket-mark-as-read",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "package": "npm run build; rm -rf extension.zip; zip extension.zip manifest.json dist/*.js *.html *.css icons/*.png",
