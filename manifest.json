@@ -4,7 +4,7 @@
     "name": "Bitbucket code review",
     "short_name": "Bitbucket CR",
     "description": "Improvements to Bitbucket and JIRA for easier code reviewing",
-    "version": "1.0",
+    "version": "1.0.1",
 
     "icons": {
         "128": "icons/icon-128.png",
